@@ -38,18 +38,9 @@ backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// ===== Dynamic Skills Loading =====
-const skills = ['HTML', 'CSS', 'Python', 'Multimedia', 'Problem Solving'];
-const skillsGrid = document.querySelector('.skills-grid');
-if (skillsGrid) {
-  skillsGrid.innerHTML = ''; // clear existing
-  skills.forEach(skill => {
-    const div = document.createElement('div');
-    div.classList.add('skill');
-    div.textContent = skill;
-    skillsGrid.appendChild(div);
-  });
-}
+// ===== Dynamic Skills Loading (disabled on manual skills page) =====
+// Intentionally not auto-generating skills here because the dedicated
+// skills page manages its own interactive cards.
 
 // ===== Dynamic Education Loading =====
 const educationData = [

@@ -76,11 +76,12 @@
   <section class="section skills-grid">
     <h1>My Skills</h1>
     <div class="skills-container">
-      <a href="HTML.html" class="skill-card">HTML</a>
-      <a href="css.html" class="skill-card">CSS</a>
-      <a href="javascript.html" class="skill-card">JavaScript</a>
-      <a href="python.html" class="skill-card">Python</a>
+      <button type="button" class="skill-card" data-skill="HTML">HTML</button>
+      <button type="button" class="skill-card" data-skill="CSS">CSS</button>
+      <button type="button" class="skill-card" data-skill="JavaScript">JavaScript</button>
+      <button type="button" class="skill-card" data-skill="Python">Python</button>
     </div>
+    <div id="skillInfo" class="skill-info" style="display:none; margin-top: 20px;"></div>
   </section>
 
   <footer>
@@ -107,18 +108,61 @@
       }, 1200);
     });
 
-    // ===== Dissolve Transition on Leave =====
+    // ===== Dissolve Transition on Leave (for actual page navigations only) =====
     document.querySelectorAll('a').forEach(link => {
-      if (link.hostname === window.location.hostname) {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const target = e.currentTarget.href;
-          document.body.classList.add('fade-out');
-          setTimeout(() => {
-            window.location.href = target;
-          }, 600); // match dissolveExit duration
-        });
-      }
+      // Ignore if it's not same-host link
+      if (link.hostname !== window.location.hostname) return;
+      // Ignore in-page anchors and JS-only links
+      if (link.getAttribute('href') === '#' || link.getAttribute('href') === '') return;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = e.currentTarget.href;
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+          window.location.href = target;
+        }, 600);
+      });
+    });
+
+    // ===== Skill Cards: Show Info Inline =====
+    const info = document.getElementById('skillInfo');
+    const cards = document.querySelectorAll('.skill-card');
+    const skillContent = {
+      HTML: `
+        <h2>HTML (HyperText Markup Language)</h2>
+        <p>HTML is the standard markup language for creating web pages. It defines the structure of content using elements like <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;img&gt;</code>, and <code>&lt;a&gt;</code>.</p>
+        <ul>
+          <li><strong>Purpose</strong>: Structure content and semantics.</li>
+          <li><strong>Core</strong>: Elements, attributes, semantic tags, forms, media.</li>
+          <li><strong>Works with</strong>: CSS for styling and JavaScript for interactivity.</li>
+        </ul>
+        <p>Example:</p>
+        <pre><code>&lt;article&gt;
+  &lt;h1&gt;Welcome&lt;/h1&gt;
+  &lt;p&gt;This is a simple HTML page.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+      `,
+      CSS: `
+        <h2>CSS</h2>
+        <p>CSS styles and lays out HTML content. Topics: selectors, the box model, flexbox, grid, responsive design.</p>
+      `,
+      JavaScript: `
+        <h2>JavaScript</h2>
+        <p>JavaScript adds interactivity to web pages. Topics: DOM, events, fetch API, ES6 modules.</p>
+      `,
+      Python: `
+        <h2>Python</h2>
+        <p>Python is a versatile language used for automation, data analysis, web backends, and more.</p>
+      `
+    };
+
+    cards.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-skill');
+        info.innerHTML = skillContent[key] || `<h2>${key}</h2><p>Details coming soon.</p>`;
+        info.style.display = 'block';
+        info.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
   </script>
 </body>

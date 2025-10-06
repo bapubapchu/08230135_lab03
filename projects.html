@@ -26,14 +26,17 @@
   </header>
 
   <section class="section projects-grid">
-    <div class="project">
-      <h3>Python Lab Exercises</h3>
-      <p>Completed multiple programming exercises in Python during college labs to strengthen coding and problem-solving skills.</p>
+    <div class="projects-list">
+      <button type="button" class="project-item" data-project="python-labs">
+        <img src="https://via.placeholder.com/60x40?text=Py" alt="Python thumbnail" style="width:48px;height:auto;margin-right:8px;vertical-align:middle;" />
+        <span style="vertical-align:middle;">Python Lab Exercises</span>
+      </button>
+      <button type="button" class="project-item" data-project="multimedia">
+        <img src="https://via.placeholder.com/60x40?text=MM" alt="Multimedia thumbnail" style="width:48px;height:auto;margin-right:8px;vertical-align:middle;" />
+        <span style="vertical-align:middle;">Interactive Multimedia Assignment</span>
+      </button>
     </div>
-    <div class="project">
-      <h3>Interactive Multimedia Assignment</h3>
-      <p>Created a simple interactive learning module to enhance engagement and learning outcomes in class projects.</p>
-    </div>
+    <div id="projectInfo" class="project-info" style="display:none; margin-top: 20px;"></div>
   </section>
 
   <footer>
@@ -41,5 +44,39 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Basic inline project info toggling (simple, no frameworks)
+    const projectInfo = document.getElementById('projectInfo');
+    const projectButtons = document.querySelectorAll('.project-item');
+    const projectDetails = {
+      'python-labs': `
+        <img src="https://via.placeholder.com/800x360?text=Python+Labs" alt="Python Labs" style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto 12px;" />
+        <h2>Python Lab Exercises</h2>
+        <p>Hands-on programming tasks covering loops, functions, lists, and file I/O.</p>
+        <ul>
+          <li>Focus: problem solving and core Python concepts</li>
+          <li>Outcome: stronger fundamentals and debugging skills</li>
+        </ul>
+      `,
+      'multimedia': `
+        <img src="https://via.placeholder.com/800x360?text=Interactive+Multimedia" alt="Interactive Multimedia" style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto 12px;" />
+        <h2>Interactive Multimedia Assignment</h2>
+        <p>A small learning module using simple interactions for better engagement.</p>
+        <ul>
+          <li>Focus: user interaction and visual feedback</li>
+          <li>Tools: basic HTML, CSS, and minimal JavaScript</li>
+        </ul>
+      `
+    };
+
+    projectButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-project');
+        projectInfo.innerHTML = projectDetails[key] || `<h2>${btn.textContent}</h2><p>Details coming soon.</p>`;
+        projectInfo.style.display = 'block';
+        projectInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>
